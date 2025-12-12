@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ehhm.s / Marcel – Developer Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      :root {
+        /* Default (dark-ish) */
+        --background-primary: #020617; /* slate-950 */
+        --background-secondary: #020617;
+        --text-primary: #e5e7eb;       /* slate-200 */
+        --text-secondary: #9ca3af;     /* slate-400 */
+      }
+
+      html.light {
+        --background-primary: #0f172a;  /* slate-900 – dunkles, aber angenehmes dark */
+        --background-secondary: #0f172a;
+        --text-primary: #e5e7eb;
+        --text-secondary: #9ca3af;
+      }
+
+      /* Du kannst später noch einen echten Light-Mode draus machen.
+         Für jetzt bleiben wir bei „dark aber angenehm“, damit nix blendet. */
+
+      .bg-page {
+        background-color: var(--background-primary);
+        color: var(--text-primary);
+      }
+
+      .text-primary {
+        color: var(--text-primary);
+      }
+
+      .text-secondary {
+        color: var(--text-secondary);
+      }
+
+      /* Aurora Background */
+      .bg-aurora {
+        position: relative;
+        overflow: hidden;
+      }
+      .bg-aurora::before,
+      .bg-aurora::after {
+        content: "";
+        position: absolute;
+        filter: blur(80px);
+        border-radius: 50%;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .bg-aurora::before {
+        width: 420px;
+        height: 420px;
+        background-color: rgba(56, 189, 248, 0.25); /* sky-400 */
+        animation: animate-aurora-1 22s infinite alternate;
+      }
+      .bg-aurora::after {
+        width: 320px;
+        height: 320px;
+        background-color: rgba(244, 114, 182, 0.25); /* pink-400 */
+        animation: animate-aurora-2 26s infinite alternate;
+      }
+      @keyframes animate-aurora-1 {
+        0% { top: 5%; left: 10%; transform: scale(1); }
+        100% { top: 70%; left: 75%; transform: scale(1.4); }
+      }
+      @keyframes animate-aurora-2 {
+        0% { bottom: 0%; right: 5%; transform: scale(1); }
+        100% { bottom: 60%; right: 70%; transform: scale(1.2); }
+      }
+
+      /* Karten / Appstore Look */
+      .app-card {
+        background-image: linear-gradient(
+          135deg,
+          rgba(56, 189, 248, 0.12),
+          rgba(129, 140, 248, 0.08),
+          rgba(236, 72, 153, 0.12)
+        );
+        border-color: rgba(148, 163, 184, 0.4);
+      }
+
+      .app-card-light {
+        background-image: linear-gradient(
+          135deg,
+          rgba(56, 189, 248, 0.1),
+          rgba(248, 250, 252, 1),
+          rgba(236, 72, 153, 0.1)
+        );
+        border-color: rgba(148, 163, 184, 0.4);
+      }
+
+      .chip {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .z-content {
+        position: relative;
+        z-index: 1;
+      }
+    </style>
+  </head>
+  <body class="bg-page">
+    <div
+      id="page-root"
+      class="min-h-screen w-full flex flex-col items-center bg-page bg-aurora"
+    >
+      <div class="relative w-full flex flex-col items-center z-content">
+        <!-- Header -->
+        <header
+          class="w-full max-w-5xl flex items-center justify-between px-6 py-6 gap-4"
+        >
+          <div class="flex flex-col gap-2">
+            <span
+              class="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] text-secondary bg-gradient-to-r from-sky-500/20 via-fuchsia-500/20 to-amber-400/20 px-3 py-1 rounded-full border border-sky-500/30 uppercase"
+              id="badge"
+            >
+              <span
+                class="h-1.5 w-1.5 rounded-full bg-sky-400 animate-pulse"
+              ></span>
+              Developer Portfolio
+            </span>
+            <h1 class="text-2xl font-semibold text-primary">
+              Ehhm.s / Marcel
+            </h1>
+            <p class="text-xs text-secondary">
+              Indie Developer · AI Tools · Productivity Apps
+            </p>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <!-- Theme Toggle -->
+            <div
+              class="hidden md:flex items-center gap-1 rounded-full border border-slate-700 px-1 py-1 text-xs bg-black/20 backdrop-blur-sm"
+            >
+              <button
+                type="button"
+                data-theme="dark"
+                class="px-3 py-1 rounded-full font-medium text-xs md:text-sm text-white bg-gradient-to-r from-sky-500 via-indigo-500 to-fuchsia-500 shadow-sm shadow-sky-500/40"
+              >
+                dark
+              </button>
+              <button
+                type="button"
+                data-theme="aurora"
+                class="px-3 py-1 rounded-full font-medium text-xs md:text-sm text-secondary hover:text-white"
+              >
+                aurora
+              </button>
+            </div>
+
+            <!-- Language Toggle -->
+            <div
+              class="flex items-center gap-1 rounded-full border border-slate-700 px-1 py-1 text-xs bg-black/20 backdrop-blur-sm"
+            >
+              <button
+                type="button"
+                data-lang="de"
+                class="px-3 py-1 rounded-full font-medium text-xs md:text-sm bg-sky-500 text-white shadow-sm shadow-sky-500/40"
+              >
+                DE
+              </button>
+              <button
+                type="button"
+                data-lang="en"
+                class="px-3 py-1 rounded-full font-medium text-xs md:text-sm text-secondary hover:text-white"
+              >
+                EN
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- Hero -->
+        <section class="w-full max-w-5xl px-6 pt-2 pb-10 relative">
+          <div
+            class="absolute inset-x-10 -top-4 h-px bg-gradient-to-r from-sky-500/0 via-sky-500/80 to-fuchsia-500/0"
+          ></div>
+
+          <div class="grid gap-8 md:grid-cols-[2fr,1fr] items-center">
+            <div>
+              <h2
+                id="hero-title"
+                class="text-4xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-sky-400 via-indigo-400 to-fuchsia-400 bg-clip-text text-transparent"
+              >
+                Apps, AI-Tools & digitale Produkte
+              </h2>
+              <p
+                id="hero-text"
+                class="text-secondary md:text-lg mb-6 max-w-xl"
+              >
+                Ich entwickle schlanke, fokussierte Anwendungen mit klarem
+                Mehrwert – von AI-basierten Editoren bis hin zu smarten
+                Produktivitäts-Tools. Diese Seite dient als zentraler Hub für
+                meine Projekte und Produkte.
+              </p>
+              <div class="flex flex-wrap gap-3">
+                <a
+                  href="#projects"
+                  id="hero-primary"
+                  class="rounded-2xl font-semibold inline-flex items-center justify-center shadow-md shadow-sky-500/20 bg-gradient-to-r from-sky-500 via-indigo-500 to-fuchsia-500 text-white hover:brightness-110 px-6 py-3 text-sm md:text-base"
+                >
+                  Projekte ansehen
+                </a>
+                <a
+                  href="#contact"
+                  id="hero-secondary"
+                  class="rounded-2xl font-medium inline-flex items-center justify-center border border-slate-700 text-primary hover:bg-slate-900/60 px-6 py-3 text-sm md:text-base bg-black/30 backdrop-blur-sm"
+                >
+                  Kontakt & Kooperation
+                </a>
+              </div>
+            </div>
+
+            <div
+              class="hidden md:flex flex-col gap-2 text-sm p-4 rounded-3xl border border-slate-700 bg-slate-900/70 relative overflow-hidden"
+            >
+              <div
+                class="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.3),transparent_55%),radial-gradient(circle_at_bottom,_rgba(244,114,182,0.3),transparent_55%)] pointer-events-none"
+              ></div>
+              <div class="relative z-10">
+                <span
+                  id="focus-title"
+                  class="text-xs uppercase tracking-[0.25em] text-secondary"
+                >
+                  Fokus
+                </span>
+                <ul id="focus-list" class="mt-1 space-y-1 text-sm"></ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Projects -->
+        <section id="projects" class="w-full max-w-5xl px-6 pb-12 relative">
+          <div
+            class="absolute inset-x-10 -top-4 h-px bg-gradient-to-r from-fuchsia-500/0 via-fuchsia-500/70 to-amber-300/0"
+          ></div>
+
+          <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+            <div>
+              <h3
+                id="projects-title"
+                class="text-2xl font-semibold flex items-center gap-2"
+              >
+                <span
+                  class="inline-block h-2 w-2 rounded-full bg-sky-400 shadow-[0_0_12px_rgba(56,189,248,0.8)]"
+                ></span>
+                Projekte & Apps
+              </h3>
+              <span
+                id="projects-subtitle"
+                class="text-sm text-secondary block"
+              >
+                Dein eigener Mini-Appstore für alle Produkte
+              </span>
+            </div>
+          </div>
+
+          <div
+            id="projects-grid"
+            class="grid grid-cols-1 md:grid-cols-3 gap-6"
+          ></div>
+        </section>
+
+        <!-- Lumina Short Detail -->
+        <section
+          id="lumina"
+          class="w-full max-w-5xl px-6 pb-12 border-t border-slate-800 pt-10 relative"
+        >
+          <div
+            class="absolute inset-x-10 -top-[1px] h-[1px] bg-gradient-to-r from-sky-500/0 via-sky-500/60 to-fuchsia-500/0"
+          ></div>
+
+          <div class="flex flex-col md:flex-row md:items-center gap-6 mb-6">
+            <div>
+              <h3
+                id="lumina-title"
+                class="text-2xl font-semibold mb-2 flex items-center gap-2"
+              >
+                <span
+                  class="inline-block h-2 w-2 rounded-full bg-fuchsia-400 shadow-[0_0_12px_rgba(244,114,182,0.9)]"
+                ></span>
+                Lumina AI – Dein kreativer Co-Pilot
+              </h3>
+              <p id="lumina-subtitle" class="text-secondary text-sm mb-2">
+                Willkommen bei Lumina AI: einer intuitiven Web-App, die deine
+                Ideen in beeindruckende Bilder und Videos verwandelt.
+              </p>
+              <p id="lumina-intro" class="text-secondary text-sm">
+                Lumina AI richtet sich an Creator, Künstler,
+                Social-Media-Enthusiasten und alle, die ihre Kreativität mit KI
+                auf das nächste Level bringen möchten.
+              </p>
+            </div>
+            <div class="flex flex-col gap-2 text-sm min-w-[220px]">
+              <a
+                href="https://lumina-ai-373390161457.us-west1.run.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                id="lumina-open"
+                class="rounded-2xl font-semibold inline-flex items-center justify-center shadow-md shadow-sky-500/20 bg-gradient-to-r from-sky-500 via-indigo-500 to-fuchsia-500 text-white hover:brightness-110 px-6 py-3 text-sm"
+              >
+                Lumina AI öffnen
+              </a>
+              <a
+                href="https://lumina-ai-373390161457.us-west1.run.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                id="lumina-cta"
+                class="rounded-2xl font-medium inline-flex items-center justify-center border border-slate-700 text-primary hover:bg-slate-900/60 px-6 py-2 text-xs bg-black/30 backdrop-blur-sm"
+              >
+                Zur Web-App & Anmeldung
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- About -->
+        <section
+          id="about"
+          class="w-full max-w-5xl px-6 pb-12 grid gap-8 md:grid-cols-2"
+        >
+          <div>
+            <h3
+              id="about-title"
+              class="text-2xl font-semibold mb-3 flex items-center gap-2"
+            >
+              <span
+                class="inline-block h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.9)]"
+              ></span>
+              Über mich
+            </h3>
+            <p
+              id="about-text1"
+              class="text-secondary text-sm leading-relaxed mb-3"
+            ></p>
+            <p
+              id="about-text2"
+              class="text-secondary text-sm leading-relaxed"
+            ></p>
+          </div>
+          <div
+            class="rounded-3xl border border-slate-700 bg-slate-900/70 p-4 text-sm text-primary flex flex-col gap-2 relative overflow-hidden"
+          >
+            <div
+              class="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.2),transparent_55%),radial-gradient(circle_at_bottom,_rgba(251,191,36,0.2),transparent_55%)] pointer-events-none"
+            ></div>
+            <div class="relative z-10">
+              <h4 id="about-tech-title" class="font-semibold mb-1">
+                Tech-Stack & Fokus
+              </h4>
+              <div id="about-tech-lines" class="space-y-1"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Contact -->
+        <section
+          id="contact"
+          class="w-full max-w-5xl px-6 pb-16 flex flex-col md:flex-row md:items-center md:justify-between gap-6"
+        >
+          <div>
+            <h3
+              id="contact-title"
+              class="text-2xl font-semibold mb-2 flex items-center gap-2"
+            >
+              <span
+                class="inline-block h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.9)]"
+              ></span>
+              Kontakt & Kooperation
+            </h3>
+            <p id="contact-text" class="text-secondary text-sm mb-3"></p>
+          </div>
+          <div class="flex flex-col gap-2 text-sm text-primary">
+            <p>
+              <span id="contact-email-label">E-Mail</span>:
+              <span class="font-mono ml-1"
+                >m.creation.execution@gmail.com</span
+              >
+            </p>
+            <p class="text-primary">
+              <span id="contact-socials-label">Socials</span>:
+              <span class="block mt-1">
+                <a
+                  href="https://linktr.ee/Ehhm.s"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1 underline decoration-sky-400 underline-offset-4 mr-3"
+                  >🔗 Linktree</a
+                >
+                <a
+                  href="https://github.com/Marcel-2025"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1 underline decoration-indigo-400 underline-offset-4 mr-3"
+                  >🐙 GitHub</a
+                >
+                <a
+                  href="https://www.instagram.com/Ehhm.s"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-1 underline decoration-fuchsia-400 underline-offset-4"
+                  >📸 Instagram</a
+                >
+              </span>
+            </p>
+            <p id="contact-optional" class="text-secondary text-xs"></p>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer
+          class="w-full max-w-5xl px-6 pb-8 text-xs text-secondary flex justify-between border-t border-slate-800 pt-4"
+        >
+          <span>© <span id="year"></span> Ehhm.s / Marcel</span>
+          <span id="footer-built">Erstellt mit HTML, Tailwind & etwas JS</span>
+        </footer>
+      </div>
+    </div>
+
+    <script>
+      const content = {
+        de: {
+          badge: "Developer Portfolio",
+          hero: {
+            title: "Apps, AI-Tools & digitale Produkte",
+            text:
+              "Ich entwickle schlanke, fokussierte Anwendungen mit klarem Mehrwert – von AI-basierten Editoren bis hin zu smarten Produktivitäts-Tools. Diese Seite dient als zentraler Hub für meine Projekte und Produkte.",
+            primaryCta: "Projekte ansehen",
+            secondaryCta: "Kontakt & Kooperation",
+            focusTitle: "Fokus",
+            focusPoints: [
+              "AI / Machine Learning in echten Produkten",
+              "Tools für Creator, Social Media & Content Workflows",
+              "Kleine, aber hochspezialisierte Apps mit klarer UX",
+            ],
+          },
+          projects: {
+            title: "Projekte & Apps",
+            subtitle: "Dein eigener Mini-Appstore für alle Produkte",
+          },
+          lumina: {
+            title: "Lumina AI – Dein kreativer Co-Pilot",
+            subtitle:
+              "Willkommen bei Lumina AI: einer intuitiven Web-App, die deine Ideen in beeindruckende Bilder und Videos verwandelt.",
+            intro:
+              "Lumina AI richtet sich an Creator, Künstler, Social-Media-Enthusiasten und alle, die ihre Kreativität mit KI auf das nächste Level bringen möchten.",
+            open: "Lumina AI öffnen",
+            cta: "Zur Web-App & Anmeldung",
+          },
+          about: {
+            title: "Über mich",
+            text1:
+              "Kurzvorstellung: Wer du bist, worauf du dich spezialisierst und wen deine Produkte ansprechen. Zum Beispiel: Indie-Entwickler mit Fokus auf AI-gestützte Creator-Tools und schlanke Produktivitäts-Apps.",
+            text2:
+              "Hier kannst du auch Referenzen, Kooperationen oder besondere Meilensteine erwähnen (z.B. Downloads, Nutzerzahlen, Kundenfeedback, Launches in App Stores usw.).",
+            techTitle: "Tech-Stack & Fokus",
+            techLines: [
+              "• Frontend: React, Next.js, Tailwind CSS",
+              "• Backend / Cloud: Firebase, Google Cloud, Serverless-Architekturen",
+              "• Spezialgebiete: AI-gestützte Workflows, Bildverarbeitung, Tools für Creator",
+            ],
+          },
+          contact: {
+            title: "Kontakt & Kooperation",
+            text:
+              "Interesse an einer Zusammenarbeit, einem Custom-Tool oder einer White-Label-Lösung? Melde dich gerne – ich beantworte Anfragen in der Regel zeitnah.",
+            emailLabel: "E-Mail",
+            socialsLabel: "Socials",
+            optional: "Optional: Link zu deinem Shop / deiner Hauptseite",
+          },
+          footerBuilt: "Erstellt mit HTML, Tailwind & etwas JS",
+        },
+        en: {
+          badge: "Developer Portfolio",
+          hero: {
+            title: "Apps, AI tools & digital products",
+            text:
+              "I build lean, focused applications with clear value – from AI-powered editors to smart productivity tools. This page acts as the central hub for my projects and products.",
+            primaryCta: "View projects",
+            secondaryCta: "Contact & collaboration",
+            focusTitle: "Focus",
+            focusPoints: [
+              "AI / machine learning in real-world products",
+              "Tools for creators, social media & content workflows",
+              "Small but highly specialized apps with clear UX",
+            ],
+          },
+          projects: {
+            title: "Projects & apps",
+            subtitle: "Your own mini app store for all products",
+          },
+          lumina: {
+            title: "Lumina AI – Your creative co-pilot",
+            subtitle:
+              "Welcome to Lumina AI: an intuitive web app designed to turn your imagination into stunning visual reality.",
+            intro:
+              "Lumina AI is built for creators, artists, social media enthusiasts and anyone who wants to take their creativity to the next level with AI.",
+            open: "Open Lumina AI",
+            cta: "Go to web app & signup",
+          },
+          about: {
+            title: "About me",
+            text1:
+              "Short intro: who you are, what you focus on and who your products are built for. For example: indie developer focused on AI-powered creator tools and compact productivity apps.",
+            text2:
+              "You can also highlight references, collaborations or milestones (e.g. downloads, user numbers, customer feedback, launches in app stores, etc.).",
+            techTitle: "Tech stack & focus",
+            techLines: [
+              "• Frontend: React, Next.js, Tailwind CSS",
+              "• Backend / cloud: Firebase, Google Cloud, serverless architectures",
+              "• Specialties: AI-powered workflows, image processing, tools for creators",
+            ],
+          },
+          contact: {
+            title: "Contact & collaboration",
+            text:
+              "Interested in working together, a custom tool or a white-label solution? Feel free to reach out – I usually respond within a short time.",
+            emailLabel: "Email",
+            socialsLabel: "Socials",
+            optional: "Optional: link to your shop / main page",
+          },
+          footerBuilt: "Built with HTML, Tailwind & a bit of JS",
+        },
+      };
+
+      const projectsData = [
+        {
+          id: "lumina",
+          name: "Lumina AI",
+          tags: { de: "AI Foto Editor", en: "AI photo editor" },
+          short: {
+            de:
+              "KI-Foto- und Video-Editor im Browser mit Community, Themes und Credit-System.",
+            en:
+              "AI photo & video editor in the browser with community, themes and a credit system.",
+          },
+          description: {
+            de:
+              "Lumina AI ist dein kreativer Co-Pilot: Leistungsstarke Web-App, die mit Text-Prompts Fotos bearbeitet, KI-Bilder generiert und Bilder in Videos verwandelt – inklusive Community-Feed, Themes und 300 kostenlosen Credits zum Start.",
+            en:
+              "Lumina AI is your creative co-pilot: a powerful web app that edits photos with text prompts, generates AI images and turns pictures into videos – including a community feed, themes and 300 free credits to start.",
+          },
+          mainLink: "https://lumina-ai-373390161457.us-west1.run.app",
+          secondaryLink: "https://lumina-ai-373390161457.us-west1.run.app",
+          iconEmoji: "✨",
+          iconBg: "from-fuchsia-500 to-amber-400",
+        },
+        {
+          id: "wss-pro",
+          name: "WA Sorter Pro",
+          tags: { de: "Tool", en: "Tool" },
+          short: {
+            de: "Sortiert WhatsApp-Screenshots auf Windows automatisch in saubere Ordner.",
+            en: "Automatically sorts WhatsApp screenshots into clean folders on Windows.",
+          },
+          description: {
+            de:
+              "Läuft 100 % lokal auf Windows und analysiert deine WhatsApp- und Messenger-Screenshots. Vorschau ist kostenlos – das Anwenden der Sortierung erfordert eine Lizenz.",
+            en:
+              "Runs 100% locally on Windows and analyses your WhatsApp and messenger screenshots. Preview is free – applying the sorting requires a license.",
+          },
+          mainLink: "https://screenshot-sorter-pro.lemonsqueezy.com/checkout",
+          secondaryLink:
+            "https://flondy.github.io/landingpage_whats_app_screenshot_sorter_pro_single_file_html/", /* falls du die Landingpage auch auf GH hostest */
+          iconEmoji: "🖼️",
+          iconBg: "from-emerald-400 to-sky-500",
+        },
+        {
+          id: "notes",
+          name: "My Notes",
+          tags: { de: "Notizen", en: "Notes" },
+          short: {
+            de:
+              "Minimalistische Notiz-Landingpage – ideal für schnelle Ideen und Listen.",
+            en:
+              "Minimal note-taking landing page – ideal for quick thoughts and lists.",
+          },
+          description: {
+            de:
+              "My Notes ist eine schlanke, fokussierte Notiz-Experience im Browser. Perfekt für Ideen, To-dos und kleine Workflows – ohne Ablenkung.",
+            en:
+              "My Notes is a clean, focused note-taking experience in the browser. Perfect for ideas, to-do lists and small workflows – without distractions.",
+          },
+          mainLink: "https://flondy.github.io/my-notes-landing-page/",
+          secondaryLink: "https://flondy.github.io/my-notes-landing-page/",
+          iconEmoji: "📝",
+          iconBg: "from-sky-500 to-indigo-500",
+        },
+        {
+          id: "lamp",
+          name: "My Lamp",
+          tags: { de: "UI-Experiment", en: "UI experiment" },
+          short: {
+            de:
+              "Interaktive Lampen- / Licht-UI als kleine, verspielte Landingpage.",
+            en:
+              "Interactive lamp / light UI as a small, playful landing page.",
+          },
+          description: {
+            de:
+              "My Lamp ist ein visuelles UI-Experiment rund um Licht, Farbe und Interaktion – ideal zum Spielen und Testen von Micro-Interactions.",
+            en:
+              "My Lamp is a visual UI experiment around light, colour and interaction – great for testing micro-interactions and playful UI ideas.",
+          },
+          mainLink: "https://flondy.github.io/my-lamp-landing-page/",
+          secondaryLink: "https://flondy.github.io/my-lamp-landing-page/",
+          iconEmoji: "💡",
+          iconBg: "from-amber-400 to-rose-400",
+        },
+        {
+        id: "drop-it",
+        name: "Drop It",
+        tags: { 
+          de: "Stack-Spiel", 
+          en: "Stack game" 
+        },
+        short: {
+          de: "Ein entspanntes und süchtig machendes Stack-Spiel. Droppe perfekt und bau den Turm!",
+          en: "A relaxing and addictive stacking game. Drop perfectly and build the tower!"
+        },
+        description: {
+          de:
+            "Drop It ist ein sauberes, entspannendes und süchtig machendes Geschicklichkeitsspiel, bei dem dein Timing entscheidet. Droppe den Block im richtigen Moment, richte ihn perfekt aus und stapel so hoch wie möglich! Perfekte Drops bringen Bonuspunkte und lassen den Turm schneller wachsen. Features: flüssiges und befriedigendes Stacking-Gameplay, Perfect-Drop-Erkennung mit Bonus-Effekten, dynamische Kameraführung, mehrere Themes und Farbvarianten, automatische Demo-Vorschau im Startmenü, Highscore-Anzeige sowie Hintergrundmusik und Soundeffekte.",
+          en:
+            "Drop It is a clean, relaxing and addictive skill-based game where timing is everything. Drop the block at the right moment, align it perfectly and stack as high as you can! Perfect drops give you bonus points and make the tower grow faster. Features: smooth and satisfying stacking gameplay, perfect-drop detection with bonus effects, dynamic camera, multiple themes and colour variants, automatic demo preview in the main menu, highscore display plus background music and sound effects."
+        },
+        mainLink: "https://flondy.github.io/drop-it-landing-page/",
+        secondaryLink: "https://flondy.github.io/drop-it-landing-page/",
+        iconEmoji: "📂",
+        iconBg: "from-cyan-400 to-violet-500"
+      },
+      ];
+
+      let state = {
+        lang: "de",
+        theme: "dark",
+        expandedId: null,
+      };
+
+      function renderTexts() {
+        const t = content[state.lang];
+
+        document.getElementById("badge").lastChild.textContent =
+          " " + t.badge;
+
+        // Hero
+        document.getElementById("hero-title").textContent = t.hero.title;
+        document.getElementById("hero-text").textContent = t.hero.text;
+        document.getElementById("hero-primary").textContent =
+          t.hero.primaryCta;
+        document.getElementById("hero-secondary").textContent =
+          t.hero.secondaryCta;
+
+        document.getElementById("focus-title").textContent =
+          t.hero.focusTitle;
+        const focusList = document.getElementById("focus-list");
+        focusList.innerHTML = "";
+        t.hero.focusPoints.forEach((line) => {
+          const li = document.createElement("li");
+          li.textContent = line;
+          li.className = "text-sm text-primary";
+          focusList.appendChild(li);
+        });
+
+        // Projects
+        document.getElementById("projects-title").lastChild.textContent =
+          " " + t.projects.title;
+        document.getElementById("projects-subtitle").textContent =
+          t.projects.subtitle;
+
+        // Lumina
+        document.getElementById("lumina-title").lastChild.textContent =
+          " " + t.lumina.title;
+        document.getElementById("lumina-subtitle").textContent =
+          t.lumina.subtitle;
+        document.getElementById("lumina-intro").textContent =
+          t.lumina.intro;
+        document.getElementById("lumina-open").textContent = t.lumina.open;
+        document.getElementById("lumina-cta").textContent = t.lumina.cta;
+
+        // About
+        document.getElementById("about-title").lastChild.textContent =
+          " " + t.about.title;
+        document.getElementById("about-text1").textContent =
+          t.about.text1;
+        document.getElementById("about-text2").textContent =
+          t.about.text2;
+        document.getElementById("about-tech-title").textContent =
+          t.about.techTitle;
+        const techLines = document.getElementById("about-tech-lines");
+        techLines.innerHTML = "";
+        t.about.techLines.forEach((line) => {
+          const p = document.createElement("p");
+          p.textContent = line;
+          techLines.appendChild(p);
+        });
+
+        // Contact
+        document.getElementById("contact-title").lastChild.textContent =
+          " " + t.contact.title;
+        document.getElementById("contact-text").textContent =
+          t.contact.text;
+        document.getElementById(
+          "contact-email-label"
+        ).textContent = t.contact.emailLabel;
+        document.getElementById(
+          "contact-socials-label"
+        ).textContent = t.contact.socialsLabel;
+        document.getElementById(
+          "contact-optional"
+        ).textContent = t.contact.optional;
+
+        document.getElementById("footer-built").textContent =
+          t.footerBuilt;
+      }
+
+      function renderProjects() {
+        const grid = document.getElementById("projects-grid");
+        grid.innerHTML = "";
+        projectsData.forEach((p) => {
+          const isExpanded = state.expandedId === p.id;
+          const card = document.createElement("div");
+          card.className =
+            "rounded-3xl border app-card text-sm flex flex-col h-full overflow-hidden relative p-5 backdrop-blur-sm";
+          card.innerHTML = `
+            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-500/70 via-indigo-500/70 to-fuchsia-500/70"></div>
+            <div class="flex items-start gap-3 mb-3 relative z-10">
+              <div class="h-10 w-10 rounded-2xl bg-gradient-to-br ${
+                p.iconBg
+              } flex items-center justify-center text-lg shadow-md shadow-sky-500/40">
+                <span>${p.iconEmoji}</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-2">
+                  <h4 class="text-base font-semibold">${
+                    p.name
+                  }</h4>
+                  <span class="chip text-sky-100 bg-gradient-to-r from-sky-500/40 via-cyan-500/40 to-fuchsia-500/40 px-2 py-1 rounded-full border border-sky-400/40 whitespace-nowrap">
+                    ${p.tags[state.lang]}
+                  </span>
+                </div>
+                <p class="mt-1 text-xs text-secondary line-clamp-2">
+                  ${p.short[state.lang]}
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-col gap-2 mt-auto relative z-10">
+              <a href="${p.mainLink}" target="_blank" rel="noopener noreferrer"
+                class="rounded-2xl font-semibold inline-flex items-center justify-center shadow-md shadow-sky-500/20 bg-gradient-to-r from-sky-500 via-indigo-500 to-fuchsia-500 text-white hover:brightness-110 w-full text-xs md:text-sm py-2">
+                ${state.lang === "de" ? "App öffnen" : "Open app"}
+              </a>
+              <div class="flex gap-2 mt-1">
+                <a href="${p.secondaryLink}" target="_blank" rel="noopener noreferrer"
+                  class="rounded-2xl font-medium inline-flex items-center justify-center border border-slate-600 text-primary hover:bg-slate-900/60 w-full text-[11px] bg-black/30 py-2">
+                  ${
+                    state.lang === "de"
+                      ? "Landingpage / Infos"
+                      : "Landing page / info"
+                  }
+                </a>
+                <button
+                  data-expand="${p.id}"
+                  class="rounded-2xl font-medium inline-flex items-center justify-center border border-slate-600 text-primary hover:bg-slate-900/60 w-10 flex-shrink-0 bg-black/30 text-[14px]"
+                >
+                  ${isExpanded ? "–" : "+"}
+                </button>
+              </div>
+            </div>
+            ${
+              isExpanded
+                ? `<div class="mt-4 pt-3 border-t border-slate-600 text-xs text-primary relative z-10">
+                    <p>${p.description[state.lang]}</p>
+                  </div>`
+                : ""
+            }
+          `;
+          grid.appendChild(card);
+        });
+
+        // Events für expand Buttons
+        grid
+          .querySelectorAll("button[data-expand]")
+          .forEach((btn) =>
+            btn.addEventListener("click", () => {
+              const id = btn.getAttribute("data-expand");
+              state.expandedId = state.expandedId === id ? null : id;
+              renderProjects();
+            })
+          );
+      }
+
+      function renderTheme() {
+        const html = document.documentElement;
+        const pageRoot = document.getElementById("page-root");
+
+        if (state.theme === "aurora") {
+          html.className = "light";
+          pageRoot.classList.add("bg-aurora");
+        } else {
+          html.className = "dark";
+          pageRoot.classList.remove("bg-aurora");
+        }
+
+        // Buttons markieren
+        document
+          .querySelectorAll("[data-theme]")
+          .forEach((btn) => {
+            const theme = btn.getAttribute("data-theme");
+            if (theme === state.theme) {
+              btn.className =
+                "px-3 py-1 rounded-full font-medium text-xs md:text-sm text-white bg-gradient-to-r from-sky-500 via-indigo-500 to-fuchsia-500 shadow-sm shadow-sky-500/40";
+            } else {
+              btn.className =
+                "px-3 py-1 rounded-full font-medium text-xs md:text-sm text-secondary hover:text-white";
+            }
+          });
+      }
+
+      function renderLangButtons() {
+        document.querySelectorAll("[data-lang]").forEach((btn) => {
+          const l = btn.getAttribute("data-lang");
+          if (l === state.lang) {
+            btn.className =
+              "px-3 py-1 rounded-full font-medium text-xs md:text-sm bg-sky-500 text-white shadow-sm shadow-sky-500/40";
+          } else {
+            btn.className =
+              "px-3 py-1 rounded-full font-medium text-xs md:text-sm text-secondary hover:text-white";
+          }
+        });
+      }
+
+      function renderAll() {
+        renderTheme();
+        renderLangButtons();
+        renderTexts();
+        renderProjects();
+        document.getElementById("year").textContent =
+          new Date().getFullYear();
+      }
+
+      // Events
+      document.addEventListener("DOMContentLoaded", () => {
+        document
+          .querySelectorAll("[data-lang]")
+          .forEach((btn) =>
+            btn.addEventListener("click", () => {
+              state.lang = btn.getAttribute("data-lang");
+              state.expandedId = null;
+              renderAll();
+            })
+          );
+
+        document
+          .querySelectorAll("[data-theme]")
+          .forEach((btn) =>
+            btn.addEventListener("click", () => {
+              state.theme = btn.getAttribute("data-theme");
+              renderAll();
+            })
+          );
+
+        renderAll();
+      });
+    </script>
+  </body>
+</html>
